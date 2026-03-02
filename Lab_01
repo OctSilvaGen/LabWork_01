@@ -1,0 +1,13 @@
+const int ledpin = 13;
+
+void setup() {
+  pinMode(ledpin, OUTPUT);  // Пин 13 — выход
+}
+
+void loop() {
+  static unsigned long t;  // Переменная помнит время
+  if (millis() - t >= 1000) {  // Если прошла 1 секунда
+    t += 1000;                 // Добавляем 1 секунду к времени
+    digitalWrite(ledpin, !digitalRead(ledpin)); // Вкл ↔ Выкл
+  }
+}

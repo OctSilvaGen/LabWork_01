@@ -1,0 +1,27 @@
+int buttonPin = 2;   // Кнопка на 2 пине
+int ledPin = 13;     // Светодиод на 13 пине
+
+void setup() {
+  Serial.begin(9600);           // 1. Запускаем связь с компьютером
+  pinMode(buttonPin, INPUT_PULLUP); // 2. Пин кнопки с подтяжкой (внутри уже резистор)
+  pinMode(ledPin, OUTPUT);      // 3. Пин светодиода — выход
+  Serial.println("Старт!");     // 4. Пишем в монитор, что начали
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin); // Читаем кнопку
+  
+  // Отладка: пишем состояние кнопки
+  Serial.print("Кнопка: ");
+  Serial.println(buttonState);
+
+  if (buttonState == LOW) {     // Если нажали (замкнули на землю)
+    digitalWrite(ledPin, LOW); // Включаем LED
+    Serial.println("-> Свет включен");
+  } else {                      // Если не нажали
+    digitalWrite(ledPin, HIGH);  // Выключаем LED
+    Serial.println("-> Свет выключен");
+  }
+
+  delay(200); // Пауза, чтобы текст не летел слишком быстро
+}

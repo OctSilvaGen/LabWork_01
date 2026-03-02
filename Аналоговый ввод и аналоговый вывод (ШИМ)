@@ -1,0 +1,27 @@
+int potPin = A0;   // Потенциометр на аналоговом пине A0
+int ledPin = 11;    // Светодиод на ШИМ-пине 9 (обязательно с значком ~)
+
+void setup() {
+  Serial.begin(9600);      // Запускаем монитор порта
+  pinMode(ledPin, OUTPUT); // Светодиод — выход
+  Serial.println("Готово!");
+}
+
+void loop() {
+  // 1. Читаем значение с потенциометра (от 0 до 1023)
+  int sensorValue = analogRead(potPin);
+
+  // 2. Переводим число 0-1023 в число 0-255 для светодиода
+  int brightness = map(sensorValue, 0, 1023, 0, 255);
+
+  // 3. Включаем светодиод с нужной яркостью
+  analogWrite(ledPin, brightness);
+
+  // 4. Выводим отладку в монитор порта
+  Serial.print("Сырое: ");
+  Serial.print(sensorValue);
+  Serial.print(" | Яркость: ");
+  Serial.println(brightness);
+
+  delay(100); // Небольшая пауза для стабильности
+}

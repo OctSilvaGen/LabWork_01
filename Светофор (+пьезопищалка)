@@ -1,0 +1,58 @@
+#define RED      13
+#define YELLOW   12
+#define GREEN    11
+#define BUZZER   5   
+
+// Времена 
+const int T_RED = 5;
+const int T_GREEN = 5;
+const int T_YELLOW = 3;
+const int T_BLINK = 2;
+
+void setup() {
+  pinMode(RED, OUTPUT);
+  pinMode(YELLOW, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  
+  // Короткий сигнал при старте
+  tone(BUZZER, 1000, 200);
+  delay(300);
+}
+
+void loop() {
+  // КРАСНЫЙ
+  digitalWrite(RED, HIGH);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(GREEN, LOW);
+  delay(T_RED * 1000);
+  
+  // Сигнал перед зеленым (два коротких)
+  tone(BUZZER, 800, 150);
+  delay(200);
+  tone(BUZZER, 800, 150);
+  delay(200);
+  
+  // ЗЕЛЕНЫЙ (без мигания)
+  digitalWrite(RED, LOW);
+  digitalWrite(GREEN, HIGH);
+  delay((T_GREEN - T_BLINK) * 1000);
+  
+  // ЗЕЛЕНЫЙ МИГАЕТ + звуковой сигнал
+  for(int i = 0; i < T_BLINK; i++) {
+    digitalWrite(GREEN, LOW);
+    tone(BUZZER, 1200, 100);  // Высокий звук
+    delay(500);
+    digitalWrite(GREEN, HIGH);
+    noTone(BUZZER);
+    delay(500);
+  }
+  noTone(BUZZER);
+  
+  // ЖЕЛТЫЙ + предупреждающий звук
+  digitalWrite(GREEN, LOW);
+  digitalWrite(YELLOW, HIGH);
+  tone(BUZZER, 600, 300);  // Низкий звук
+  delay(T_YELLOW * 1000);
+  noTone(BUZZER);
+}
